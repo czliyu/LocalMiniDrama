@@ -1,5 +1,6 @@
 const express = require('express');
 const response = require('../response');
+const { authMiddleware } = require('../middleware/auth');
 const dramaRoutes = require('./drama');
 const taskRoutes = require('./task');
 const settingsRoutes = require('./settings');
@@ -21,9 +22,11 @@ const assetRoutes = require('./assets');
 const audioRoutes = require('./audio');
 const promptOverridesRoutes = require('./promptOverrides');
 const sceneModelMapRoutes = require('./sceneModelMap');
+const authRoutes = require('./auth');
 
 function setupRouter(cfg, db, log) {
   const r = express.Router();
+  const auth = authRoutes(db, log);
   const drama = dramaRoutes(db, cfg, log);
   const task = taskRoutes(db, log);
   const settings = settingsRoutes(db, cfg, log);
@@ -47,6 +50,15 @@ function setupRouter(cfg, db, log) {
   const assets = assetRoutes(db, log);
   const audio = audioRoutes(db, log, cfg);
   const promptOverrides = promptOverridesRoutes.routes(db, log);
+
+  // ---------- JWT 认证中间件 ----------
+  // 白名单路径（/auth/register, /auth/login）放行，其余需要 Bearer token
+  r.use(authMiddleware);
+
+  // ---------- auth ----------
+  r.post('/auth/register', auth.register);
+  r.post('/auth/login', auth.login);
+  r.get('/auth/me', auth.me);
 
   // ---------- dramas ----------
   r.get('/dramas', drama.listDramas);
