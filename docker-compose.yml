@@ -6,8 +6,8 @@ services:
     ports:
       - "5679:5679"
     volumes:
-      # 持久化数据库与上传文件
-      - lmd_data:/app/backend-node/data
+      # 持久化数据库与上传文件（本地可访问）
+      - ./data:/app/backend-node/data
       # 可挂载自定义配置（含 AI API Key）
       - ./backend-node/configs/config.yaml:/app/backend-node/configs/config.yaml:ro
       - ./frontweb/dist:/app/frontweb/dist
@@ -26,6 +26,3 @@ services:
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     depends_on:
       - localminidrama
-
-volumes:
-  lmd_data:
