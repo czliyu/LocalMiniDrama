@@ -3,7 +3,7 @@
     <header class="header">
       <div class="header-inner">
         <h1 class="logo">
-          <span class="logo-main">本地短剧助手</span>
+          <span class="logo-main">玛雅AI星球</span>
           <span class="logo-sub">LocalMiniDrama</span>
         </h1>
         <!-- 公共资源库（左侧，靛紫调） -->
@@ -27,9 +27,9 @@
           <el-button class="btn-library" title="媒体素材库" @click="$router.push('/media-library')">
             <el-icon><Files /></el-icon>素材库
           </el-button> -->
-          <el-button v-if="!vendorLockEnabled" class="btn-wechat" title="扫码联系作者" @click="showWechat = true">
+          <!-- <el-button v-if="!vendorLockEnabled" class="btn-wechat" title="扫码联系作者" @click="showWechat = true">
             <el-icon><ChatDotSquare /></el-icon>微信我
-          </el-button>
+          </el-button> -->
           <el-button class="btn-theme" :title="isDark ? '切换到浅色模式' : '切换到暗色模式'" @click="toggleTheme">
             <el-icon><Sunny v-if="isDark" /><Moon v-else /></el-icon>
             {{ isDark ? '浅色' : '暗色' }}

@@ -1,6 +1,6 @@
 # AI 配置指南
 
-**导航：[项目主页](../README.md) | [快速开始](quickstart.md) | [English](en.md)**
+**导航：[项目主页](../README.md) | [快速开始](quickstart.md) | [环境变量](ENV.md) | [English](en.md)**
 
 ---
 
