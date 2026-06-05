@@ -517,6 +517,34 @@ function ensureAllColumns(database) {
       updated_at TEXT NOT NULL DEFAULT ''
     )`);
   } catch (_) {}
+
+  // --- users（用户认证表） ---
+  try {
+    database.exec(`CREATE TABLE IF NOT EXISTS users (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      username   TEXT NOT NULL UNIQUE,
+      password   TEXT NOT NULL,
+      role       TEXT NOT NULL DEFAULT 'user',
+      is_active  INTEGER DEFAULT 1,
+      created_at TEXT,
+      updated_at TEXT,
+      deleted_at TEXT
+    )`);
+  } catch (_) {}
+  ensureColumns(database, 'users', [
+    { name: 'username',   type: 'TEXT NOT NULL DEFAULT \'\'' },
+    { name: 'password',   type: 'TEXT NOT NULL DEFAULT \'\'' },
+    { name: 'role',       type: 'TEXT NOT NULL DEFAULT \'user\'' },
+    { name: 'is_active',  type: 'INTEGER DEFAULT 1' },
+    { name: 'created_at', type: 'TEXT' },
+    { name: 'updated_at', type: 'TEXT' },
+    { name: 'deleted_at', type: 'TEXT' },
+  ]);
+
+  // --- dramas user_id（数据隔离） ---
+  ensureColumns(database, 'dramas', [
+    { name: 'user_id', type: 'INTEGER DEFAULT NULL' },
+  ]);
 }
 
 /** 对已打开的 database 执行迁移与兜底补列（供 app 启动时调用） */
